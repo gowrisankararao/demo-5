@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Priority API Test Report</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #172033;
+      background: #f3f6fb;
+    }
+    body { margin: 0; padding: 2rem 1rem; }
+    main { max-width: 860px; margin: auto; }
+    h1 { margin: 0 0 .4rem; }
+    .subtitle { color: #536179; margin-top: 0; }
+    .summary {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      margin: 1.5rem 0; padding: 1.25rem;
+      background: white; border: 1px solid #dce3ee; border-radius: 12px;
+    }
+    .stat { min-width: 100px; }
+    .stat strong { display: block; font-size: 1.5rem; }
+    .passed { color: #137547; }
+    .warning { color: #8a5b00; }
+    section {
+      margin: 1rem 0; padding: 1.25rem;
+      background: white; border: 1px solid #dce3ee; border-radius: 12px;
+    }
+    h2 { margin: 0 0 .75rem; font-size: 1.1rem; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    li { padding: .65rem 0; border-top: 1px solid #edf0f5; }
+    li:first-child { border-top: 0; }
+    .result { font-weight: 700; margin-right: .55rem; }
+    code { color: #39445a; overflow-wrap: anywhere; }
+    .note { color: #536179; font-size: .95rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Priority API Test Report</h1>
+    <p class="subtitle">Pytest results for <code>test_priority.py</code> and <code>test_integration.py</code></p>
+
+    <div class="summary" aria-label="Test summary">
+      <div class="stat"><strong class="passed">11</strong>passed</div>
+      <div class="stat"><strong>0</strong>failed</div>
+      <div class="stat"><strong>0</strong>skipped</div>
+      <div class="stat"><strong>0.58s</strong>duration</div>
+      <div class="stat"><strong class="warning">1</strong>warning</div>
+    </div>
+
+    <section>
+      <h2>Unit tests — priority scoring</h2>
+      <ul>
+        <li><span class="result passed">PASS</span><code>critical</code> above threshold returns score 80 and an integer</li>
+        <li><span class="result passed">PASS</span><code>warning</code> above threshold returns score 50 and an integer</li>
+        <li><span class="result passed">PASS</span><code>info</code> above threshold returns score 30 and an integer</li>
+        <li><span class="result passed">PASS</span>Unsupported severity raises <code>ValueError</code></li>
+        <li><span class="result passed">PASS</span>Zero threshold raises <code>ValueError</code></li>
+        <li><span class="result passed">PASS</span>Metric below threshold receives no bonus</li>
+        <li><span class="result passed">PASS</span>Metric exactly at threshold receives no bonus</li>
+        <li><span class="result passed">PASS</span>Priority bonus is capped at a maximum score of 100</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Integration tests — FastAPI endpoint</h2>
+      <ul>
+        <li><span class="result passed">PASS</span>Priority response matches the calculated score</li>
+        <li><span class="result passed">PASS</span>Nonexistent alert returns HTTP 404</li>
+        <li><span class="result passed">PASS</span>Zero-threshold alert returns HTTP 422</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Warning</h2>
+      <p class="note">Starlette reports that <code>httpx</code> with <code>starlette.testclient</code> is deprecated and suggests installing <code>httpx2</code>. This did not affect the test results.</p>
+    </section>
+  </main>
+</body>
+</html>
